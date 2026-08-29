@@ -32,6 +32,19 @@ pub fn create_channel(
     if name.is_empty() {
         return Err(Error::InvalidInput);
     }
+    
+    // Check if the name consists only of whitespace characters
+    let mut is_only_whitespace = true;
+    for byte in name.bytes() {
+        if byte != b' ' && byte != b'\t' && byte != b'\n' && byte != b'\r' {
+            is_only_whitespace = false;
+            break;
+        }
+    }
+    if is_only_whitespace {
+        return Err(Error::InvalidInput);
+    }
+    
     if name.len() > MAX_CHANNEL_NAME_LENGTH {
         return Err(Error::NameTooLong);
     }

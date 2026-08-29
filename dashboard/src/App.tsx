@@ -30,6 +30,7 @@ import { useTheme } from './hooks/useTheme';
 import { DeliveryHeatmap } from './components/DeliveryHeatmap';
 import { useEventStore } from './store/eventStore';
 import { SyncStatus } from './components/SyncStatus';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 type Tab = 'explorer' | 'preferences';
 
@@ -373,7 +374,9 @@ export function App() {
               hidden={tab !== item.id}
               className="app__panel"
             >
-              {tab === item.id && renderPanel(item.id, events)}
+              <ErrorBoundary fallbackMessage="Failed to load this dashboard section.">
+                {tab === item.id && renderPanel(item.id, events)}
+              </ErrorBoundary>
             </div>
           ))}
         </main>
